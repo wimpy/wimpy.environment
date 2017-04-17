@@ -1,4 +1,4 @@
-# Wimpy Build [![Build Status](https://travis-ci.org/wimpy/wimpy.environment.svg?branch=master)](https://travis-ci.org/wimpy/wimpy.environment)
+# Wimpy Environment [![Build Status](https://travis-ci.org/wimpy/wimpy.environment.svg?branch=master)](https://travis-ci.org/wimpy/wimpy.environment)
 Ansible role that creates resources in your AWS account so you can deploy applications using Wimpy.
 
 ## Parameters
