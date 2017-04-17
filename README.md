@@ -3,7 +3,6 @@ Ansible role that creates resources in your AWS account so you can deploy applic
 
 ## Parameters
 The parameters are
-
   - `wimpy_project_name`: The name to identify your project.
   - `wimpy_app_port`: Port where your application is listening for requests.
   - `wimpy_aws_elb_healthcheck_ping_protocol`: Protocol where your application is listening for requests
@@ -33,7 +32,7 @@ It creates a base CloudFormation stack that contains
 ### Environment Stack
 Wimpy applications will be deployed to different environments, typically staging and production.
 This role creates a CloudFormation stack for every environment that contains
-- VPC
+- Virtual Private Cloud (VPC) for your applications
 - Route tables for this VPC
 - Internet gateway
 - Public subnets for your Load Balancers
