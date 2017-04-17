@@ -1,0 +1,26 @@
+---
+
+- name: "Rendering CloudFormation template"
+  shell: python {{ role_path }}/troposphere/application.py > /tmp/cloudformation-application-{{ wimpy_deploy_id }}.json
+  changed_when: false
+
+- name: "Create resources that are unique for every application: security groups and instance profile"
+  cloudformation:
+    profile: "{{ boto_profile | default(omit) }}"
+    region: "{{ wimpy_aws_region }}"
+    stack_name: "{{ wimpy_project_name }}"
+    state: "present"
+    template: "/tmp/cloudformation-application-{{ wimpy_deploy_id }}.json"
+    template_parameters:
+      VPC: "{{ wimpy_cf_environments[wimpy_deployment_environment]['stack_outputs']['VPC'] }}"
+      Environment: "{{ wimpy_deployment_environment }}"
+      AppName: "{{ wimpy_project_name }}"
+      AppPort: "{{ wimpy_app_port | string }}"
+      AppProtocol: "{{ wimpy_aws_elb_healthcheck_ping_protocol }}"
+      ExposedPort: "80"
+      MasterKey: "{{ wimpy_cf_base.stack_outputs['MasterKey'] }}"
+      StorageBucketName: "{{ wimpy_cf_base.stack_outputs['StorageBucket'] }}"
+    tags:
+      Environment: "{{ wimpy_deployment_environment }}"
+      Type: "application"
+      Managed: "Wimpy"

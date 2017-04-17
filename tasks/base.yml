@@ -1,0 +1,17 @@
+---
+
+- name: "Rendering CloudFormation template"
+  shell: python {{ role_path }}/troposphere/base.py > /tmp/cloudformation-base-{{ wimpy_deploy_id }}.json
+  changed_when: false
+
+- name: "Create resources shared by different environments: CloudTrail, S3 Bucket for ELB logs, S3 Bucket for applications data and KMS key"
+  cloudformation:
+    profile: "{{ boto_profile | default(omit) }}"
+    region: "{{ wimpy_aws_region }}"
+    stack_name: "base"
+    state: "present"
+    template: "/tmp/cloudformation-base-{{ wimpy_deploy_id }}.json"
+    tags:
+      Type: "base"
+      Managed: "Wimpy"
+  register: wimpy_cf_base

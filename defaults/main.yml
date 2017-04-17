@@ -1,0 +1,7 @@
+---
+
+wimpy_deploy_id: "{{ ansible_date_time.iso8601_micro | to_uuid }}"
+wimpy_aws_region: "eu-west-1"
+wimpy_environments_list:
+  - "staging"
+  - "production"

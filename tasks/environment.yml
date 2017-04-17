@@ -1,0 +1,21 @@
+---
+
+- name: "Rendering CloudFormation template"
+  shell: python {{ role_path }}/troposphere/environment.py > /tmp/cloudformation-{{ item }}-{{ wimpy_deploy_id }}.json
+  changed_when: false
+
+- name: "Creating the {{ item }} environment: VPC, subnets for ELBs/Apps/DBs and network routes for ELBs/Apps/DBs"
+  cloudformation:
+    profile: "{{ boto_profile | default(omit) }}"
+    region: "{{ wimpy_aws_region }}"
+    stack_name: "{{ item }}"
+    state: "present"
+    template: "/tmp/cloudformation-{{ item }}-{{ wimpy_deploy_id }}.json"
+    tags:
+      Environment: "{{ item }}"
+      Type: "environment"
+      Managed: "Wimpy"
+  register: wimpy_cf_env_out
+
+- set_fact:
+    wimpy_cf_environments: "{{ wimpy_cf_environments|default({}) | combine({item: wimpy_cf_env_out}) }}"

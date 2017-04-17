@@ -1,0 +1,8 @@
+---
+
+- include: base.yml
+
+- include: environment.yml
+  with_items: "{{ wimpy_environments_list }}"
+
+- include: application.yml
