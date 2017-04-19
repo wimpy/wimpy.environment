@@ -24,3 +24,19 @@
       Environment: "{{ wimpy_deployment_environment }}"
       Type: "application"
       Managed: "Wimpy"
+  register: wimpy_cf_application
+
+- set_fact:
+    wimpy_aws_vpc_id: "{{ wimpy_cf_environments[wimpy_deployment_environment]['stack_outputs']['VPC'] }}"
+
+- set_fact:
+    wimpy_aws_elb_vpc_subnets: "{{ wimpy_cf_environments[wimpy_deployment_environment]['stack_outputs']['ELBSubnets'] }}"
+
+- set_fact:
+    wimpy_aws_autoscaling_vpc_subnets: "{{ wimpy_cf_environments[wimpy_deployment_environment]['stack_outputs']['AppSubnets'] }}"
+
+- set_fact:
+    wimpy_aws_lc_security_groups: ["{{ wimpy_cf_application.stack_outputs['InstanceSecurityGroup'] }}"]
+
+- set_fact:
+    wimpy_aws_elb_security_groups: ["{{ wimpy_cf_application.stack_outputs['LoadBalancerSecurityGroup'] }}"]

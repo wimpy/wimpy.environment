@@ -15,3 +15,12 @@
       Type: "base"
       Managed: "Wimpy"
   register: wimpy_cf_base
+
+- set_fact:
+    wimpy_aws_s3_bucket: "{{ wimpy_cf_base.stack_outputs['StorageBucket'] }}"
+
+- set_fact:
+    wimpy_aws_cloudwatch_bucket: "{{ wimpy_cf_base.stack_outputs['LogBucket'] }}"
+
+- set_fact:
+    wimpy_aws_kms_key: "{{ wimpy_cf_base.stack_outputs['MasterKey'] }}"
