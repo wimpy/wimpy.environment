@@ -3,6 +3,6 @@
 - include: base.yml
 
 - include: environment.yml
-  with_items: "{{ wimpy_environments_list }}"
+  with_items: "{{ wimpy_environments_list | sort }}"
 
 - include: application.yml
