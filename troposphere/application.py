@@ -221,12 +221,12 @@ t.add_output(Output(
 )
 t.add_output(Output(
     "Registry",
-    Value=Join("/", [Join(".", [Ref("AWS::AccountId"), "dkr.ecr", Ref("AWS::Region"), "amazonaws.com", ]), Ref("ECRRepository")]),
+    Value=Join(".", [Ref("AWS::AccountId"), "dkr.ecr", Ref("AWS::Region"), "amazonaws.com", ]),
     Description="Hostname of the registry")
 )
 t.add_output(Output(
     "Repository",
-    Value=Ref("ECRRepository"),
+    Value=Join("/", [Join(".", [Ref("AWS::AccountId"), "dkr.ecr", Ref("AWS::Region"), "amazonaws.com", ]), Ref("ECRRepository")]),
     Description="Full name of the ECR Repository")
 )
 
