@@ -159,7 +159,7 @@ IAMPolicy = t.add_resource(PolicyType(
             "Sid": "allowScopedS3AccessRoot"
         }, {
             "Action": ["s3:*"],
-            "Resource": Join("", ["arn:aws:s3:::", Ref(StorageBucketName), "*"]),
+            "Resource": Join("", ["arn:aws:s3:::", Ref(StorageBucketName), "/", Ref(environment), "/", Ref(appName), "/*"]),
             "Effect": "Allow",
             "Sid": "allowScopedS3Access"
         }, {
