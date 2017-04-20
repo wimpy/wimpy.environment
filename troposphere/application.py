@@ -100,7 +100,7 @@ IngressForSSH = t.add_resource(SecurityGroupIngress(
     IpProtocol="tcp",
     FromPort=22,
     ToPort=22,
-    CidrIp="0,0,0,0/0",
+    CidrIp="0.0.0.0/0",
     GroupId=Ref("InstanceSecurityGroup")
 ))
 
