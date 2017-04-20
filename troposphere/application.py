@@ -1,6 +1,6 @@
 from troposphere import Join, Parameter, Output
 from troposphere import Ref, Tags, Template
-from troposphere.ec2 import SecurityGroup
+from troposphere.ec2 import SecurityGroup, SecurityGroupIngress
 from troposphere.ecr import Repository
 from troposphere.iam import InstanceProfile
 from troposphere.iam import PolicyType
@@ -72,20 +72,34 @@ LoadBalancerSecurityGroup = t.add_resource(SecurityGroup(
 
 InstanceSecurityGroup = t.add_resource(SecurityGroup(
     "InstanceSecurityGroup",
-    SecurityGroupIngress=[
-        {
-            "SourceSecurityGroupId": Ref(LoadBalancerSecurityGroup),
-            "FromPort": Ref(appPort),
-            "ToPort": Ref(appPort),
-            "IpProtocol": Ref(appProtocol)
-        },
-        {"ToPort": 22, "FromPort": 22, "IpProtocol": "tcp", "CidrIp": "0.0.0.0/0"}
-    ],
+    SecurityGroupIngress=[Ref("IngressForELB"), Ref("IngressForInstances"), Ref("IngressForSSH")],
     VpcId=Ref(vpcId),
     GroupDescription=Join("-", [Ref(environment), Ref(appName), "instances"]),
     Tags=Tags(
         Name=Join("-", [Ref(environment), Ref(appName), "instances"]),
     ),
+))
+
+IngressForELB = t.add_resource(SecurityGroupIngress(
+    "IngressForELB",
+    FromPort=Ref(appPort),
+    IpProtocol=Ref(appProtocol),
+    SourceSecurityGroupId=Ref("LoadBalancerSecurityGroup"),
+    ToPort=Ref(appPort)
+))
+IngressForInstances = t.add_resource(SecurityGroupIngress(
+    "IngressForInstances",
+    FromPort=Ref(appPort),
+    IpProtocol=Ref(appProtocol),
+    SourceSecurityGroupId=Ref("InstanceSecurityGroup"),
+    ToPort=Ref(appPort)
+))
+IngressForSSH = t.add_resource(SecurityGroupIngress(
+    "IngressForSSH",
+    FromPort=22,
+    IpProtocol="tcp",
+    CidrIp="0,0,0,0/0",
+    ToPort=22
 ))
 
 DBSecurityGroup = t.add_resource(SecurityGroup(
