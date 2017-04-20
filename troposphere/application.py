@@ -72,7 +72,6 @@ LoadBalancerSecurityGroup = t.add_resource(SecurityGroup(
 
 InstanceSecurityGroup = t.add_resource(SecurityGroup(
     "InstanceSecurityGroup",
-    SecurityGroupIngress=[Ref("IngressForELB"), Ref("IngressForInstances"), Ref("IngressForSSH")],
     VpcId=Ref(vpcId),
     GroupDescription=Join("-", [Ref(environment), Ref(appName), "instances"]),
     Tags=Tags(
@@ -82,24 +81,27 @@ InstanceSecurityGroup = t.add_resource(SecurityGroup(
 
 IngressForELB = t.add_resource(SecurityGroupIngress(
     "IngressForELB",
-    FromPort=Ref(appPort),
     IpProtocol=Ref(appProtocol),
+    FromPort=Ref(appPort),
+    ToPort=Ref(appPort),
     SourceSecurityGroupId=Ref("LoadBalancerSecurityGroup"),
-    ToPort=Ref(appPort)
+    GroupId=Ref("InstanceSecurityGroup")
 ))
 IngressForInstances = t.add_resource(SecurityGroupIngress(
     "IngressForInstances",
-    FromPort=Ref(appPort),
     IpProtocol=Ref(appProtocol),
+    FromPort=Ref(appPort),
+    ToPort=Ref(appPort),
     SourceSecurityGroupId=Ref("InstanceSecurityGroup"),
-    ToPort=Ref(appPort)
+    GroupId=Ref("InstanceSecurityGroup")
 ))
 IngressForSSH = t.add_resource(SecurityGroupIngress(
     "IngressForSSH",
-    FromPort=22,
     IpProtocol="tcp",
+    FromPort=22,
+    ToPort=22,
     CidrIp="0,0,0,0/0",
-    ToPort=22
+    GroupId=Ref("InstanceSecurityGroup")
 ))
 
 DBSecurityGroup = t.add_resource(SecurityGroup(
