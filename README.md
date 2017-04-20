@@ -41,7 +41,8 @@ This role creates a CloudFormation stack for every environment that contains
 
 ### Application Stack
 For every application that you deploy, this role will create the following resources
-- Security Group for your application that allows traffic to the application port from Load Balancers
-- Security Group for your Load Balancers that allows public traffic
-- Security Group for your databases that allows traffic from your applications
-- IAM Role for the application so it can access to S3, KMS and CloudWatch
+- A repository in Elastic Container Registry to store Docker images.
+- Security Group for your application that allows traffic to the application port from Load Balancers and from instances with the same security group.
+- Security Group for your Load Balancers that allows public traffic.
+- Security Group for your databases that allows traffic from your applications.
+- IAM Role for the application so it can access to S3, KMS and CloudWatch.
