@@ -40,18 +40,8 @@
      wimpy_docker_registry_username: "AWS"
      wimpy_docker_registry_password: "{{ (wimpy_aws_ecr_password.stdout | b64decode).split(':')[1] }}"
      wimpy_aws_instance_role: "{{ wimpy_cf_application['stack_outputs']['IAMInstanceProfile'] }}"
-
-- set_fact:
-    wimpy_aws_vpc_id: "{{ wimpy_cf_environments[wimpy_deployment_environment]['stack_outputs']['VPC'] }}"
-
-- set_fact:
-    wimpy_aws_elb_vpc_subnets: "{{ wimpy_cf_environments[wimpy_deployment_environment]['stack_outputs']['ELBSubnets'] }}"
-
-- set_fact:
-    wimpy_aws_autoscaling_vpc_subnets: "{{ wimpy_cf_environments[wimpy_deployment_environment]['stack_outputs']['AppSubnets'] }}"
-
-- set_fact:
-    wimpy_aws_lc_security_groups: ["{{ wimpy_cf_application.stack_outputs['InstanceSecurityGroup'] }}"]
-
-- set_fact:
-    wimpy_aws_elb_security_groups: ["{{ wimpy_cf_application.stack_outputs['LoadBalancerSecurityGroup'] }}"]
+     wimpy_aws_vpc_id: "{{ wimpy_cf_environments[wimpy_deployment_environment]['stack_outputs']['VPC'] }}"
+     wimpy_aws_elb_vpc_subnets: "{{ wimpy_cf_environments[wimpy_deployment_environment]['stack_outputs']['ELBSubnets'] }}"
+     wimpy_aws_autoscaling_vpc_subnets: "{{ wimpy_cf_environments[wimpy_deployment_environment]['stack_outputs']['AppSubnets'] }}"
+     wimpy_aws_lc_security_groups: ["{{ wimpy_cf_application.stack_outputs['InstanceSecurityGroup'] }}"]
+     wimpy_aws_elb_security_groups: ["{{ wimpy_cf_application.stack_outputs['LoadBalancerSecurityGroup'] }}"]
