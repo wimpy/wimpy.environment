@@ -134,7 +134,8 @@ IAMRole = t.add_resource(Role(
     Path=Join("", ["/", Ref(environment), "/", Ref(appName), "/"]),
     ManagedPolicyArns=[
         "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforSSM",
-        "arn:aws:iam::aws:policy/AWSXrayFullAccess"
+        "arn:aws:iam::aws:policy/AWSXrayFullAccess",
+        "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
     ],
     AssumeRolePolicyDocument={
         "Statement": [
