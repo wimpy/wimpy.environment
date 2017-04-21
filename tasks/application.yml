@@ -39,6 +39,7 @@
      wimpy_docker_registry: "{{ wimpy_cf_application['stack_outputs']['Registry'] }}"
      wimpy_docker_registry_username: "AWS"
      wimpy_docker_registry_password: "{{ (wimpy_aws_ecr_password.stdout | b64decode).split(':')[1] }}"
+     wimpy_aws_instance_role: "{{ wimpy_cf_application['stack_outputs']['IAMInstanceProfile'] }}"
 
 - set_fact:
     wimpy_aws_vpc_id: "{{ wimpy_cf_environments[wimpy_deployment_environment]['stack_outputs']['VPC'] }}"
