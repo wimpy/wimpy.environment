@@ -3,11 +3,11 @@ Ansible role that creates resources in your AWS account so you can deploy applic
 
 ## Parameters
 The parameters are
-  - `wimpy_project_name`: The name to identify your project.
-  - `wimpy_app_port`: Port where your application is listening for requests.
-  - `wimpy_aws_elb_healthcheck_ping_protocol`: Protocol where your application is listening for requests
   - `wimpy_deployment_environment`: Environment where you want to create the application resources.
   - `wimpy_environments_list`: List of different environments to create. By default `staging` and `production`.
+  - `wimpy_application_name`: The name to identify your project.
+  - `wimpy_application_port`: Port where your application is listening for requests.
+  - `wimpy_application_protocol`: Protocol (tcp|udp|icmp) where your application is listening for requests. Defaults to `tcp`.
   - `boto_profile`: Boto profile to use. By default no profile is used.
   - `wimpy_aws_region`: AWS Region where to create the repository. By default `eu-west-1`.
 
