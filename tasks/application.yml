@@ -8,7 +8,7 @@
   cloudformation:
     profile: "{{ boto_profile | default(omit) }}"
     region: "{{ wimpy_aws_region }}"
-    stack_name: "{{ wimpy_application_name }}"
+    stack_name: "{{ wimpy_application_name }}-resources"
     state: "present"
     template: "/tmp/cloudformation-application-{{ wimpy_deploy_id }}.json"
     template_parameters:
