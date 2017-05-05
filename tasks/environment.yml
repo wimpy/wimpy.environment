@@ -1,7 +1,10 @@
 ---
 
+- set_fact:
+    wimpy_env_index: "{{ 0 if wimpy_env_index is not defined else wimpy_env_index | int + 1 }}"
+
 - name: "Rendering CloudFormation template"
-  shell: python {{ role_path }}/troposphere/environment.py > /tmp/cloudformation-{{ item }}-{{ wimpy_deploy_id }}.json
+  shell: python {{ role_path }}/troposphere/environment.py {{ wimpy_env_index }} > /tmp/cloudformation-{{ item }}-{{ wimpy_deploy_id }}.json
   changed_when: false
 
 - name: "Creating the {{ item }} environment: VPC, subnets for ELBs/Apps/DBs and network routes for ELBs/Apps/DBs"

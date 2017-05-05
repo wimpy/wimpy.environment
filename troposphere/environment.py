@@ -1,3 +1,4 @@
+import sys
 from troposphere import Join, Output
 from troposphere import Ref, Tags, Template
 from troposphere.ec2 import InternetGateway
@@ -9,6 +10,8 @@ from troposphere.ec2 import VPC
 from troposphere.ec2 import VPCGatewayAttachment
 from troposphere.elasticache import SubnetGroup
 from troposphere.rds import DBSubnetGroup
+
+environment_index = int(sys.argv[1])
 
 t = Template()
 
@@ -61,7 +64,7 @@ ELBSubnet1 = t.add_resource(Subnet(
     "ELBSubnet1",
     VpcId=Ref("VPC"),
     AvailabilityZone="eu-west-1a",
-    CidrBlock="10.24.32.0/20",
+    CidrBlock="10." + str(environment_index) + ".32.0/20",
     Tags=Tags(
         Name=Join("-", [Ref("AWS::StackName"), "elb", "eu-west-1a"]),
     ),
@@ -71,7 +74,7 @@ ELBSubnet2 = t.add_resource(Subnet(
     "ELBSubnet2",
     VpcId=Ref("VPC"),
     AvailabilityZone="eu-west-1b",
-    CidrBlock="10.24.96.0/20",
+    CidrBlock="10." + str(environment_index) + ".96.0/20",
     Tags=Tags(
         Name=Join("-", [Ref("AWS::StackName"), "elb", "eu-west-1b"]),
     ),
@@ -81,7 +84,7 @@ ELBSubnet3 = t.add_resource(Subnet(
     "ELBSubnet3",
     VpcId=Ref("VPC"),
     AvailabilityZone="eu-west-1c",
-    CidrBlock="10.24.160.0/20",
+    CidrBlock="10." + str(environment_index) + ".160.0/20",
     Tags=Tags(
         Name=Join("-", [Ref("AWS::StackName"), "elb", "eu-west-1c"]),
     ),
@@ -115,7 +118,7 @@ AppSubnet1 = t.add_resource(Subnet(
     "AppSubnet1",
     VpcId=Ref("VPC"),
     AvailabilityZone="eu-west-1a",
-    CidrBlock="10.24.0.0/19",
+    CidrBlock="10." + str(environment_index) + ".0.0/19",
     Tags=Tags(
         Name=Join("-", [Ref("AWS::StackName"), "app", "eu-west-1a"]),
     ),
@@ -125,7 +128,7 @@ AppSubnet2 = t.add_resource(Subnet(
     "AppSubnet2",
     VpcId=Ref("VPC"),
     AvailabilityZone="eu-west-1b",
-    CidrBlock="10.24.64.0/19",
+    CidrBlock="10." + str(environment_index) + ".64.0/19",
     Tags=Tags(
         Name=Join("-", [Ref("AWS::StackName"), "app", "eu-west-1b"]),
     ),
@@ -135,7 +138,7 @@ AppSubnet3 = t.add_resource(Subnet(
     "AppSubnet3",
     VpcId=Ref("VPC"),
     AvailabilityZone="eu-west-1c",
-    CidrBlock="10.24.128.0/19",
+    CidrBlock="10." + str(environment_index) + ".128.0/19",
     Tags=Tags(
         Name=Join("-", [Ref("AWS::StackName"), "app", "eu-west-1c"]),
     ),
@@ -211,7 +214,7 @@ DBSubnet1 = t.add_resource(Subnet(
     "DBSubnet1",
     VpcId=Ref("VPC"),
     AvailabilityZone="eu-west-1a",
-    CidrBlock="10.24.48.0/20",
+    CidrBlock="10." + str(environment_index) + ".48.0/20",
     Tags=Tags(
         Name=Join("-", [Ref("AWS::StackName"), "db", "eu-west-1a"]),
     ),
@@ -221,7 +224,7 @@ DBSubnet2 = t.add_resource(Subnet(
     "DBSubnet2",
     VpcId=Ref("VPC"),
     AvailabilityZone="eu-west-1b",
-    CidrBlock="10.24.112.0/20",
+    CidrBlock="10." + str(environment_index) + ".112.0/20",
     Tags=Tags(
         Name=Join("-", [Ref("AWS::StackName"), "db", "eu-west-1b"]),
     ),
@@ -231,7 +234,7 @@ DBSubnet3 = t.add_resource(Subnet(
     "DBSubnet3",
     VpcId=Ref("VPC"),
     AvailabilityZone="eu-west-1c",
-    CidrBlock="10.24.176.0/20",
+    CidrBlock="10." + str(environment_index) + ".176.0/20",
     Tags=Tags(
         Name=Join("-", [Ref("AWS::StackName"), "db", "eu-west-1c"]),
     ),
@@ -295,7 +298,7 @@ VPC = t.add_resource(VPC(
     "VPC",
     InstanceTenancy="default",
     EnableDnsSupport=True,
-    CidrBlock="10.24.0.0/16",
+    CidrBlock="10." + str(environment_index) + ".0.0/16",
     EnableDnsHostnames=True,
     Tags=Tags(
         Name=Ref("AWS::StackName"),
