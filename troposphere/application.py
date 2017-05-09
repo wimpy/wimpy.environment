@@ -148,7 +148,7 @@ IAMRole = t.add_resource(Role(
     },
 ))
 
-# Policy for instances so they can access the KMS key, the CloudWatch LogGroup and the S3 bucket
+# Policy for instances so they can access the KMS key, CloudWatch LogGroup, S3 bucket and to describe ELB instances
 IAMPolicy = t.add_resource(PolicyType(
     "IAMPolicy",
     PolicyName=Join("-", [Ref("AWS::StackName"), "policy"]),
@@ -176,6 +176,13 @@ IAMPolicy = t.add_resource(PolicyType(
             "Resource": Join("/", [Join(":", ["arn:aws:kms", Ref("AWS::Region"), Ref("AWS::AccountId"), "key"]), Ref("MasterKey")]),
             "Effect": "Allow",
             "Sid": "allowKMSUse"
+        }, {
+            "Action": [
+                "elasticloadbalancing:DescribeInstanceHealth",
+            ],
+            "Resource": "*",
+            "Effect": "Allow",
+            "Sid": "allowDescribeELBInstances"
         }, {
             "Action": [
                 "logs:CreateLogGroup",
