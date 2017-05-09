@@ -4,7 +4,7 @@ Ansible role that creates resources in your AWS account so you can deploy applic
 ## Parameters
 The parameters are
   - `wimpy_deployment_environment`: Environment where you want to create the application resources.
-  - `wimpy_environments_list`: List of different environments to create. By default `staging` and `production`.
+  - `wimpy_environments_list`: List of different environments to create. If you overwrite this parameter, read the documentation carefully. By default `staging` and `production`.
   - `wimpy_application_name`: The name to identify your project.
   - `wimpy_application_port`: Port where your application is listening for requests.
   - `wimpy_application_protocol`: Protocol (tcp|udp|icmp) where your application is listening for requests. Defaults to `tcp`.
@@ -38,6 +38,11 @@ This role creates a CloudFormation stack for every environment that contains
 - Public subnets for your Load Balancers
 - Private subnets for your applications
 - Private subnets for your databases
+
+#### Defining your own set of environments
+This role creates different VPC's for different environments, assinging a different IP range to each VPC.
+Using the default environment list that contains `staging` and `production` , these ranges would be `10.0.0.0/16`, and `10.1.0.0/16` respectively. Adding a third environment would make a new VPC with the range `10.2.0.0/16`. And so on.
+Keep in mind that the order matters. Keep the list of environments always in the same order, and if you want a new environment, add it to the list. Treat the list of environments as append only.
 
 ### Application Stack
 For every application that you deploy, this role will create the following resources
