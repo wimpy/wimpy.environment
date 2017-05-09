@@ -32,7 +32,7 @@ t.add_mapping("Principals", {
 # Bucket for ELB access logs, S3 access logs and CloudTrail audit log
 LogBucket = t.add_resource(Bucket(
     "LogBucket",
-    BucketName="LogBucket",
+    BucketName="wimpy-log-bucket",
     # Allows S3 to write S3 access logs
     AccessControl="LogDeliveryWrite",
     Tags=Tags(
@@ -45,7 +45,7 @@ LogBucket = t.add_resource(Bucket(
 # S3 Access Log https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerLogs.html
 StorageBucket = t.add_resource(Bucket(
     "StorageBucket",
-    BucketName="StorageBucket",
+    BucketName="wimpy-storage-bucket",
     # Enable access log for this bucket
     LoggingConfiguration=LoggingConfiguration(
         # The name of an S3 bucket where AWS stores the access log for this bucket
