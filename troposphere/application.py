@@ -204,11 +204,6 @@ IAMPolicy = t.add_resource(PolicyType(
     },
 ))
 
-ECRRepository = t.add_resource(Repository(
-    "ECRRepository",
-    RepositoryName=Ref(appName)
-))
-
 t.add_output(Output(
     "LoadBalancerSecurityGroup",
     Value=Ref("LoadBalancerSecurityGroup"),
@@ -233,16 +228,6 @@ t.add_output(Output(
     "IAMInstanceProfile",
     Value=Ref("IAMInstanceProfile"),
     Description="Instance profile for application instances")
-)
-t.add_output(Output(
-    "Registry",
-    Value=Join(".", [Ref("AWS::AccountId"), "dkr.ecr", Ref("AWS::Region"), "amazonaws.com", ]),
-    Description="Hostname of the registry")
-)
-t.add_output(Output(
-    "Repository",
-    Value=Join("/", [Join(".", [Ref("AWS::AccountId"), "dkr.ecr", Ref("AWS::Region"), "amazonaws.com", ]), Ref("ECRRepository")]),
-    Description="Full name of the ECR Repository")
 )
 
 print(t.to_json())
