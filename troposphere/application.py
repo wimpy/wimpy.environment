@@ -183,6 +183,13 @@ IAMPolicy = t.add_resource(PolicyType(
             "Resource": "*",
             "Effect": "Allow",
             "Sid": "allowDescribeELBInstances"
+        },  {
+            "Action": [
+                "ec2:DescribeInstances",
+            ],
+            "Resource": "*",
+            "Effect": "Allow",
+            "Sid": "allowDescribeEC2Instances"
         }, {
             "Action": [
                 "logs:CreateLogGroup",
