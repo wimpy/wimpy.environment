@@ -148,7 +148,7 @@ IAMRole = t.add_resource(Role(
     },
 ))
 
-# Policy for instances so they can access the KMS key, CloudWatch LogGroup, S3 bucket and to describe ELB instances
+# Policy for instances so they can access the KMS key, CloudWatch LogGroup, S3 bucket, describe stack resources and describe ELB instances
 IAMPolicy = t.add_resource(PolicyType(
     "IAMPolicy",
     PolicyName=Join("-", [Ref("AWS::StackName"), "policy"]),
@@ -183,6 +183,13 @@ IAMPolicy = t.add_resource(PolicyType(
             "Resource": "*",
             "Effect": "Allow",
             "Sid": "allowDescribeELBInstances"
+        },  {
+            "Action": [
+                "cloudformation:DescribeStackResources",
+            ],
+            "Resource": "*",
+            "Effect": "Allow",
+            "Sid": "allowDescribeStackResources"
         },  {
             "Action": [
                 "ec2:DescribeInstances",
